@@ -18,20 +18,16 @@ from aiogram.types import (
 from yandex_music import ClientAsync
 
 import os
-from yandex_music import Client
-from yandex_music.utils.request import Request
+import requests
 
-# 1. Получаем адрес прокси из настроек Railway
-proxy_url = os.getenv("PROXY_URL") 
+proxy_url = os.getenv("PROXY_URL")
+proxies = {
+    "http": proxy_url,
+    "https": proxy_url
+} if proxy_url else None
 
-# 2. Настраиваем запрос через прокси
-if proxy_url:
-    request = Request(proxy_url=proxy_url)
-    client = Client("y0__xCP54a-CBje-AYg2bqDqhYwmueGvggbgX4mbHLvZWeA-rxaB7aAJte56w", request=request).init()
-else:
-    # Если прокси не задан, запускаем как обычно
-    client = Client("y0__xCP54a-CBje-AYg2bqDqhYwmueGvggbgX4mbHLvZWeA-rxaB7aAJte56w").init()
-
+# Делаем запрос
+response = requests.get("https://api.music.yandex.net", proxies=proxies)
 # --- КОНФИГ ---
 TG_TOKEN = '8091769810:AAEnp4S_x8n8Kjn5y9PVsBF4yZOWa5xFXWc'
 YANDEX_TOKEN = 'y0__xCP54a-CBje-AYg2bqDqhYwmueGvggbgX4mbHLvZWeA-rxaB7aAJte56w'
@@ -176,3 +172,4 @@ if __name__ == "__main__":
     except (KeyboardInterrupt, SystemExit):
 
         print("\n🛑 Бот остановлен пользователем.")
+
