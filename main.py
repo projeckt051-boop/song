@@ -17,6 +17,21 @@ from aiogram.types import (
 # Библиотека для Яндекс Музыки
 from yandex_music import ClientAsync
 
+import os
+from yandex_music import Client
+from yandex_music.utils.request import Request
+
+# 1. Получаем адрес прокси из настроек Railway
+proxy_url = os.getenv("PROXY_URL") 
+
+# 2. Настраиваем запрос через прокси
+if proxy_url:
+    request = Request(proxy_url=proxy_url)
+    client = Client("y0__xCP54a-CBje-AYg2bqDqhYwmueGvggbgX4mbHLvZWeA-rxaB7aAJte56w", request=request).init()
+else:
+    # Если прокси не задан, запускаем как обычно
+    client = Client("y0__xCP54a-CBje-AYg2bqDqhYwmueGvggbgX4mbHLvZWeA-rxaB7aAJte56w").init()
+
 # --- КОНФИГ ---
 TG_TOKEN = '8091769810:AAEnp4S_x8n8Kjn5y9PVsBF4yZOWa5xFXWc'
 YANDEX_TOKEN = 'y0__xCP54a-CBje-AYg2bqDqhYwmueGvggbgX4mbHLvZWeA-rxaB7aAJte56w'
@@ -159,4 +174,5 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
+
         print("\n🛑 Бот остановлен пользователем.")
