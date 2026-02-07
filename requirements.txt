@@ -1,1 +1,3 @@
-pip install aiogram yandex-music aiohttp
+aiogram
+yandex-music
+aiohttp
